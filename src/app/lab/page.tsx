@@ -28,7 +28,14 @@ export default function ReasoningLab() {
     setResult(null);
     setErrorMsg(null);
 
-    const supabase = getSupabaseClient();
+    let session = null;
+    try {
+      const supabase = getSupabaseClient();
+      const sessionRes = await supabase.auth.getSession();
+      session = sessionRes.data?.session || null;
+    } catch (e) {
+      console.warn("Supabase session unavailable/paused:", e);
+    }
 
     // Animation progress
     const stepInterval = setInterval(() => {
@@ -36,9 +43,6 @@ export default function ReasoningLab() {
     }, 1000);
 
     try {
-      // Get current user session
-      const { data: { session } } = await supabase.auth.getSession();
-
       const response = await fetch('/api/reason', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

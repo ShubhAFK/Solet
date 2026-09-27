@@ -136,6 +136,18 @@ input:focus, textarea:focus {
   border-radius: 50%;      /* THIS makes it a circle */
   overflow: hidden;        /* clips the image edges */
   object-fit: cover;       /* if it's an <img> tag */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #00897b;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  color: white;
+}
+
+.user-avatar:hover {
+  opacity: 0.9;
 }
 
 
@@ -199,3 +211,5 @@ input:focus, textarea:focus {
 .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
 .object-cover { object-fit: cover; }
 .cursor-pointer { cursor: pointer; }
+.bg-teal { background-color: #00897b !important; }
+.border-none { border: none !important; }

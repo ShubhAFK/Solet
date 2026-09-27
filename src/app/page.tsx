@@ -97,6 +97,115 @@ export default function Home() {
             </motion.div>
           ))}
         </section>
+
+        {/* Subscription Tiers */}
+        <section className="mt-24 mb-16 relative">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[160px] -z-10 pointer-events-none" />
+          
+          <h2 className="text-4xl md:text-5xl font-black text-center mb-12">
+            Subscription <span className="primary-gradient-text">Features</span>
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto text-left">
+            {/* Free Tier Card */}
+            <motion.div 
+              className="glass-card p-8 flex flex-col justify-between relative overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <div>
+                <h3 className="text-2xl font-bold mb-2">Free Tier</h3>
+                <p className="text-white-40 text-xs font-mono mb-6 uppercase tracking-wider">Basic access limits</p>
+                <ul className="space-y-4 text-sm text-white-60">
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white-40" />
+                    10 dilemmas per day
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white-40" />
+                    Basic text output (no export)
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white-40" />
+                    No session history saved
+                  </li>
+                </ul>
+              </div>
+                <div 
+                  className="mt-12 mx-auto w-48 py-3 rounded-2xl text-center text-sm font-bold tracking-wide uppercase"
+                  style={{
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    border: '1px solid rgba(16, 185, 129, 0.3)',
+                    color: '#34d399'
+                  }}
+                >
+                  Active Plan
+                </div>
+            </motion.div>
+
+            {/* Pro Tier Card */}
+            <motion.div 
+              className="glass-card p-8 flex flex-col justify-between relative overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              style={{ border: '1px solid rgba(112, 0, 255, 0.4)' }}
+            >
+              {/* Purple Aurora Light */}
+              <div className="absolute -top-16 -right-16 w-48 h-48 bg-primary/30 rounded-full blur-3xl pointer-events-none" />
+              
+              <div className="relative z-10">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-2xl font-bold">Pro Tier</h3>
+                  <span className="bg-primary/20 text-primary border border-primary/30 text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-full">
+                    Core Unlocks
+                  </span>
+                </div>
+                <p className="text-purple-400 text-xs font-mono mb-6 uppercase tracking-wider">Advanced capabilities</p>
+                
+                <div className="space-y-6">
+                  {/* Core Unlocks */}
+                  <div>
+                    <h4 className="text-xs font-bold text-white-80 uppercase tracking-widest mb-3">Core Unlocks</h4>
+                    <ul className="space-y-2 text-xs text-white-60">
+                      <li className="flex items-center gap-2">✓ Unlimited dilemmas, no daily cap</li>
+                      <li className="flex items-center gap-2">✓ All 3 frameworks simultaneously (Kantian, Utilitarian, Virtue)</li>
+                      <li className="flex items-center gap-2">✓ Custom frameworks (define your own axioms)</li>
+                      <li className="flex items-center gap-2">✓ Deeper reasoning (longer, nuanced breakdowns)</li>
+                    </ul>
+                  </div>
+
+                  {/* Output & Reports */}
+                  <div>
+                    <h4 className="text-xs font-bold text-white-80 uppercase tracking-widest mb-3">Output & Reports</h4>
+                    <ul className="space-y-2 text-xs text-white-60">
+                      <li className="flex items-center gap-2">✓ Export to PDF or Markdown</li>
+                      <li className="flex items-center gap-2">✓ Shareable links (public permalinks)</li>
+                      <li className="flex items-center gap-2">✓ Logic-favored path confidence scoring</li>
+                    </ul>
+                  </div>
+
+                  {/* History & Power Features */}
+                  <div>
+                    <h4 className="text-xs font-bold text-white-80 uppercase tracking-widest mb-3">Power & Organization</h4>
+                    <ul className="space-y-2 text-xs text-white-60">
+                      <li className="flex items-center gap-2">✓ Saved history with folders & tagging</li>
+                      <li className="flex items-center gap-2">✓ Compare past decisions over time</li>
+                      <li className="flex items-center gap-2">✓ Batch mode (evaluate multiple dilemmas)</li>
+                      <li className="flex items-center gap-2">✓ Counterargument generator & Context Injection</li>
+                      <li className="flex items-center gap-2">✓ Developer API Access</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <button className="relative z-10 mt-8 w-full py-3 rounded-xl btn-primary text-sm font-bold flex items-center justify-center gap-2">
+                Upgrade to Pro
+              </button>
+            </motion.div>
+          </div>
+        </section>
       </div>
 
       {/* Footer Decoration */}

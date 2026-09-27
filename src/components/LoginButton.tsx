@@ -10,18 +10,33 @@ export default function LoginButton() {
   const supabase = getSupabaseClient();
 
   useEffect(() => {
+    let authListener: any = null;
+
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+      try {
+        const supabase = getSupabaseClient();
+        const { data } = await supabase.auth.getUser();
+        if (data?.user) setUser(data.user);
+      } catch (e) {
+        console.warn("Supabase auth user check unavailable:", e);
+      }
     };
     getUser();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
-    });
+    try {
+      const supabase = getSupabaseClient();
+      const res = supabase.auth.onAuthStateChange((event, session) => {
+        setUser(session?.user ?? null);
+      });
+      authListener = res?.data;
+    } catch (e) {
+      console.warn("Supabase auth state listener unavailable:", e);
+    }
 
     return () => {
-      authListener.subscription.unsubscribe();
+      if (authListener?.subscription) {
+        authListener.subscription.unsubscribe();
+      }
     };
   }, []);
 
@@ -44,24 +59,24 @@ export default function LoginButton() {
   };
 
   const getInitials = (name: string) => {
-    if (!name) return 'Op'; // Default to 'Op' for reference matching
+    if (!name || name === 'Op') return 'Op';
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   };
 
   const avatarUrl = user?.user_metadata?.avatar_url;
-  const fullName = user?.user_metadata?.full_name || 'Op Guys';
+  const fullName = user?.user_metadata?.full_name || 'Op';
 
   return (
     <div className="relative">
       <button 
         onClick={user ? () => setShowMenu(!showMenu) : handleLogin}
-        className="user-avatar flex items-center justify-center bg-[#00897b] hover:opacity-90 transition-all border-none"
+        className="user-avatar"
         title={user ? fullName : "Sign In"}
       >
         {user && avatarUrl ? (
           <img src={avatarUrl} alt="Profile" className="user-avatar" />
         ) : (
-          <span className="text-white text-xs font-medium tracking-tight">
+          <span className="text-white text-xs font-medium">
             {getInitials(fullName)}
           </span>
         )}
@@ -76,7 +91,7 @@ export default function LoginButton() {
                 {avatarUrl ? (
                   <img src={avatarUrl} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full bg-[#00897b] flex items-center justify-center text-xl font-bold text-white">
+                  <div className="w-full h-full bg-teal flex items-center justify-center text-xl font-bold text-white">
                     {getInitials(fullName)}
                   </div>
                 )}
