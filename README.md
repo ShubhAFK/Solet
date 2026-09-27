@@ -4,6 +4,14 @@ A web application that helps you make better decisions by comparing two options 
 
 **Live Demo:** [https://euphonious-pony-a76278.netlify.app/lab](https://euphonious-pony-a76278.netlify.app/lab)
 
+## Screenshots
+
+### Home Page
+![Solet Home](./screenshots/solet.png)
+
+### Decision Analysis
+![Solet Lab - Decision Analysis](./screenshots/solet2.png)
+
 ## Features
 
 - **AI-Powered Reasoning**: Uses Google's Gemini 2.5 Flash to analyze and compare two options
