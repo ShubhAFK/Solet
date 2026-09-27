@@ -1,36 +1,149 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Solet - AI Reasoning Decision Helper
+
+A web application that helps you make better decisions by comparing two options and providing AI-powered reasoning on which choice is better and why.
+
+**Live Demo:** [https://euphonious-pony-a76278.netlify.app/lab](https://euphonious-pony-a76278.netlify.app/lab)
+
+## Features
+
+- **AI-Powered Reasoning**: Uses Google's Gemini 2.5 Flash to analyze and compare two options
+- **User Authentication**: Secure login via Supabase
+- **Clean UI**: Modern, responsive interface built with React and Framer Motion
+- **Real-time Analysis**: Get instant reasoning on why one option might be better
+- **Decision History**: Track your previous comparisons with database storage
+
+## Tech Stack
+
+- **Framework**: Next.js 16 with React 19
+- **AI Model**: Google Gemini 2.5 Flash via Generative AI API
+- **Backend**: Next.js API Routes
+- **Database & Auth**: Supabase
+- **UI Components**: React with Framer Motion animations
+- **Icons**: Lucide React
+- **Language**: TypeScript
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+- Google Gemini API key
+- Supabase account
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/axiom-afk/Solet.git
+cd Solet
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Create `.env.local` with your credentials:
+```env
+NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Run the development server:
+```bash
+npm run dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Navigate to the Lab**: Go to the `/lab` page
+2. **Enter Two Options**: Input the two choices you want to compare
+3. **Get AI Analysis**: Click submit and let Gemini provide reasoning
+4. **View Results**: See which option is recommended and the detailed explanation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+src/
+├── app/
+│   ├── api/
+│   │   └── reason/          # API endpoint for AI reasoning
+│   ├── lab/                 # Main decision comparison page
+│   ├── page.tsx             # Home page
+│   └── globals.css          # Global styles
+├── components/
+│   └── LoginButton.tsx      # Authentication component
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Development
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+
+# Run linter
+npm run lint
+```
+
+## API Endpoint
+
+**POST** `/api/reason`
+
+Analyzes two options and returns AI reasoning.
+
+**Request:**
+```json
+{
+  "option1": "First choice",
+  "option2": "Second choice"
+}
+```
+
+**Response:**
+```json
+{
+  "reasoning": "Detailed comparison and recommendation...",
+  "recommended": "option1 or option2"
+}
+```
+
+## Deployment
+
+The app is deployed on Netlify. To deploy your own:
+
+1. Push to GitHub
+2. Connect your repository to Netlify
+3. Add environment variables in Netlify dashboard
+4. Deploy
+
+## Environment Variables
+
+- `NEXT_PUBLIC_GEMINI_API_KEY`: Google Gemini API key for AI reasoning
+- `NEXT_PUBLIC_SUPABASE_URL`: Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase anonymous key
+
+## License
+
+MIT
+
+## Author
+
+axiom-afk
+
+## Contributing
+
+Contributions are welcome! Feel free to submit issues and pull requests.
+
+---
+
+**Try it now:** [Solet Decision Helper](https://euphonious-pony-a76278.netlify.app/lab)
