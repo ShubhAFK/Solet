@@ -2,7 +2,7 @@
 
 A web application that helps you make better decisions by comparing two options and providing AI-powered reasoning on which choice is better and why.
 
-**Live Demo:** [https://euphonious-pony-a76278.netlify.app/lab](https://euphonious-pony-a76278.netlify.app/lab)
+**Live Demo:** [https://soletai.netlify.app/]
 
 ## Screenshots
 
