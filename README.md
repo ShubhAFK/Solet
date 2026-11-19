@@ -54,7 +54,7 @@ npm install
 
 3. Create `.env.local` with your credentials:
 ```env
-NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
+GEMINI_API_KEY=your_gemini_api_key
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
@@ -136,7 +136,7 @@ The app is deployed on Netlify. To deploy your own:
 
 ## Environment Variables
 
-- `NEXT_PUBLIC_GEMINI_API_KEY`: Google Gemini API key for AI reasoning
+- `GEMINI_API_KEY`: Google Gemini API key for AI reasoning
 - `NEXT_PUBLIC_SUPABASE_URL`: Supabase project URL
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase anonymous key
 

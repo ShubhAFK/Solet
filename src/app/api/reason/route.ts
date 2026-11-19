@@ -7,12 +7,12 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { dilemma, user_id } = body;
 
-    if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
-      console.error("DEBUG: NEXT_PUBLIC_GEMINI_API_KEY is missing from environment.");
+    if (!process.env.GEMINI_API_KEY) {
+      console.error("DEBUG: GEMINI_API_KEY is missing from environment.");
       return NextResponse.json({ error: "API Key is missing." }, { status: 500 });
     }
 
-    console.log("DEBUG: Using API Key (length):", process.env.NEXT_PUBLIC_GEMINI_API_KEY.trim().length);
+    console.log("DEBUG: Using API Key (length):", process.env.GEMINI_API_KEY.trim().length);
 
     const reasoningPrompt = `
       You are the SOLET Logical Engine, a high-end AI designed for clear, rational reasoning.
@@ -38,9 +38,9 @@ export async function POST(req: Request) {
     `;
 
     // DIRECT REST API CALL (Bypassing the library to fix 404 errors)
-    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY.trim();
+    const apiKey = process.env.GEMINI_API_KEY.trim();
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    
+
     console.log("DEBUG: Attempting direct REST API call to Gemini 2.5 Flash");
 
     const restResponse = await fetch(url, {
