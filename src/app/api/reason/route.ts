@@ -39,8 +39,7 @@ export async function POST(req: Request) {
 
     // DIRECT REST API CALL (Bypassing the library to fix 404 errors)
     const apiKey = process.env.GEMINI_API_KEY.trim();
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-
+    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent";
     console.log("DEBUG: Attempting direct REST API call to Gemini 2.5 Flash");
 
     const restResponse = await fetch(url, {
