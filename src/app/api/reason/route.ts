@@ -1,4 +1,3 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 import { getSupabaseClient } from "@/lib/supabase";
 
@@ -11,8 +10,6 @@ export async function POST(req: Request) {
       console.error("DEBUG: GEMINI_API_KEY is missing from environment.");
       return NextResponse.json({ error: "API Key is missing." }, { status: 500 });
     }
-
-    console.log("DEBUG: Using API Key (length):", process.env.GEMINI_API_KEY.trim().length);
 
     const reasoningPrompt = `
       You are the SOLET Logical Engine, a high-end AI designed for clear, rational reasoning.
@@ -37,23 +34,31 @@ export async function POST(req: Request) {
       Keep the language simple but professional. Do not include any text other than the JSON object.
     `;
 
-    // DIRECT REST API CALL (Bypassing the library to fix 404 errors)
     const apiKey = process.env.GEMINI_API_KEY.trim();
-    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent";
-    console.log("DEBUG: Attempting direct REST API call to Gemini 2.5 Flash");
+    const models = ["gemini-3.5-flash", "gemini-3.1-flash-lite"];
+    let restResponse: Response | null = null;
 
-    const restResponse = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: reasoningPrompt }] }]
-      })
-    });
+    for (const model of models) {
+      for (let attempt = 0; attempt < 2; attempt++) {
+        restResponse = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+            body: JSON.stringify({ contents: [{ parts: [{ text: reasoningPrompt }] }] }),
+          }
+        );
+        if (restResponse.ok) break;
+        if (![429, 500, 503].includes(restResponse.status)) break; // not a busy error, don't retry
+        await new Promise((r) => setTimeout(r, 1000));
+      }
+      if (restResponse?.ok) break;
+    }
 
-    if (!restResponse.ok) {
-      const errorData = await restResponse.json();
+    if (!restResponse || !restResponse.ok) {
+      const errorData = await restResponse?.json().catch(() => ({}));
       console.error("DEBUG: REST API Error:", JSON.stringify(errorData));
-      throw new Error(`Google API returned ${restResponse.status}: ${restResponse.statusText}`);
+      throw new Error(`Google API returned ${restResponse?.status}`);
     }
 
     const restData = await restResponse.json();
@@ -65,7 +70,7 @@ export async function POST(req: Request) {
 
     console.log("DEBUG: Success! Received response from Gemini REST API");
 
-    // Improved JSON extraction: find the first '{' and last '}'
+    // Find the first '{' and last '}' to pull out the JSON
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       throw new Error("No valid JSON found in AI response");
@@ -75,14 +80,14 @@ export async function POST(req: Request) {
     // SAVE TO DATABASE
     try {
       const supabase = getSupabaseClient();
-      const { error: dbError } = await supabase.from('dilemmas').insert([
+      const { error: dbError } = await supabase.from("dilemmas").insert([
         {
           dilemma,
           recommendation: data.recommendation,
           confidence: data.confidence,
           perspectives: data.perspectives,
-          user_id: user_id || null // Link to user if logged in
-        }
+          user_id: user_id || null, // Link to user if logged in
+        },
       ]);
 
       if (dbError) {
@@ -90,8 +95,8 @@ export async function POST(req: Request) {
       } else {
         console.log("Successfully saved dilemma to Supabase.");
       }
-    } catch (e: any) {
-      console.error("Database Connection Exception:", e.message);
+    } catch (e) {
+      console.error("Database Connection Exception:", (e as Error).message);
     }
 
     return NextResponse.json(data);
